@@ -15,15 +15,16 @@ pipeline {
                 }
             }
         }
-          stage('Docker login') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-pwd', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                    sh "echo $PASS | docker login -u $USER --password-stdin"
-                    sh 'docker push kavinbali/5sepimage:v1'
-                }
-            }
+          stage('Docker login & Push') {
+    steps {
+        withCredentials([usernamePassword(credentialsId: 'dockerhub-pwd', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+            sh '''
+            echo "$PASS" | docker login -u "$USER" --password-stdin
+            docker push kavinbali/5sepimage:v1
+            '''
         }
-        
+    }
+}
      stage('Deploy') {
             steps {
                script {
