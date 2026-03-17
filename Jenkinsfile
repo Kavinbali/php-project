@@ -30,17 +30,17 @@ pipeline {
         }
 
         stage('Deploy') {
-            steps {
-                script {
-                    def dockerrm = 'sudo docker rm -f My-first-containe2211 || true'
-                    def dockerCmd = 'sudo docker run -itd --name My-first-containe2211 -p 8083:80 kavinbali/5sepimage:v1'
+    steps {
+        script {
+            def dockerrm = 'sudo docker rm -f My-first-containe2211 || true'
+            def dockerCmd = 'sudo docker run -itd --name My-first-containe2211 -p 8083:80 kavinbali/5sepimage:v1'
 
-                    sshagent(['sshkeypair']) {
-                        sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.7.86 ${dockerrm}"
-                        sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.7.86 ${dockerCmd}"
-                    }
-                }
+            sshagent(['sshkeypair']) {
+                sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.4.188 ${dockerrm}"
+                sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.4.188 ${dockerCmd}"
             }
         }
+    }
+}
     }
 }
